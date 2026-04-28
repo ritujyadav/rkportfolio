@@ -34,12 +34,14 @@ function Contact() {
       const timeout = setTimeout(() => controller.abort(), 10000);
 
       const response = await fetch(
-        "http://localhost:8080/api/contact",
+        `${import.meta.env.VITE_API_URL}/send`,
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify(formData),
-          signal: controller.signal
+          signal: controller.signal,
         }
       );
 
@@ -55,8 +57,8 @@ function Contact() {
         title: "",
         message: ""
       });
-
     } catch (error) {
+      console.error(error);
       setStatus("❌ Failed to send message. Try again.");
     } finally {
       setLoading(false);
