@@ -34,7 +34,7 @@ function Contact() {
       const timeout = setTimeout(() => controller.abort(), 10000);
 
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/send`,
+        `${import.meta.env.VITE_API_URL}/api/contact`,
         {
           method: "POST",
           headers: {
