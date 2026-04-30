@@ -1,8 +1,7 @@
 import React, { useState } from "react";
+import emailjs from "@emailjs/browser";
 
 function Contact() {
- const apiBaseUrl =
-  import.meta.env.VITE_API_URL.replace(/\/$/, "") || "";
 
   const [formData, setFormData] = useState({
     name: "",
@@ -30,23 +29,20 @@ function Contact() {
     setStatus("");
 
     try {
-      const response = await fetch(`${apiBaseUrl}/api/contact`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+
+      await emailjs.send(
+        "service_aloz3na",   // ✅ YOUR SERVICE ID
+        "template_zyjzeui",   // 🔥 PUT TEMPLATE ID HERE
+        {
+          name: formData.name,
+          email: formData.email,
+          title: formData.title,
+          message: formData.message,
         },
-        body: JSON.stringify(formData),
-       
-      });
+        "DwXYx9L-zW50jzFa0"    // 🔥 PUT PUBLIC KEY HERE
+      );
 
-      
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(errorText || "Message request failed");
-      }
-
-      setStatus("Message sent successfully!");
+      setStatus("✅ Message sent successfully!");
 
       setFormData({
         name: "",
@@ -54,9 +50,10 @@ function Contact() {
         title: "",
         message: "",
       });
+
     } catch (error) {
       console.error(error);
-      setStatus("Failed to send message. Try again.");
+      setStatus("❌ Failed to send message. Try again.");
     } finally {
       setLoading(false);
     }
@@ -70,6 +67,8 @@ function Contact() {
         </h2>
 
         <div className="grid md:grid-cols-2 gap-12 items-center">
+          
+          {/* LEFT SIDE */}
           <div className="space-y-6">
             <h3 className="text-blue-600 font-semibold tracking-wide text-lg">
               Get In Touch
@@ -96,6 +95,7 @@ function Contact() {
             </div>
           </div>
 
+          {/* FORM */}
           <form
             onSubmit={sendMessage}
             className="bg-white p-8 rounded-xl shadow-md space-y-5"
@@ -151,6 +151,7 @@ function Contact() {
 
             {status && <p className="text-center font-medium">{status}</p>}
           </form>
+
         </div>
       </div>
     </section>
