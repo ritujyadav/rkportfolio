@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 
 function Contact() {
-  const apiBaseUrl = (import.meta.env.VITE_API_URL || "http://localhost:10000").replace(/\/$/, "");
+ const apiBaseUrl =
+  import.meta.env.VITE_API_URL.replace(/\/$/, "");
 
   const [formData, setFormData] = useState({
     name: "",
