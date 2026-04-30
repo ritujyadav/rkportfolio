@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 function Contact() {
  const apiBaseUrl =
-  import.meta.env.VITE_API_URL.replace(/\/$/, "");
+  import.meta.env.VITE_API_URL.replace(/\/$/, "") || "";
 
   const [formData, setFormData] = useState({
     name: "",
@@ -30,19 +30,16 @@ function Contact() {
     setStatus("");
 
     try {
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 10000);
-
       const response = await fetch(`${apiBaseUrl}/api/contact`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
-        signal: controller.signal,
+       
       });
 
-      clearTimeout(timeout);
+      
 
       if (!response.ok) {
         const errorText = await response.text();
